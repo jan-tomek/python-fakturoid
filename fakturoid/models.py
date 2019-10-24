@@ -5,8 +5,7 @@ from dateutil.parser import parse
 
 from fakturoid import six
 
-__all__ = ['Account', 'Subject', 'InvoiceLine', 'Invoice', 'Generator',
-           'InvoiceMessage', 'Expense']
+__all__ = ['Account', 'Subject', 'InvoiceLine', 'Invoice', 'Generator','InvoiceMessage', 'Expense']
 
 
 class Model(six.UnicodeMixin):
@@ -60,7 +59,7 @@ class Model(six.UnicodeMixin):
 
 
 class Account(Model):
-    """See https://www.fakturoid.cz/api/v3/account/ for complete field reference."""
+    """See http://docs.fakturoid.apiary.io/ for complete field reference."""
     name = None
 
     class Meta:
@@ -88,11 +87,11 @@ class BankAccount(Model):
 
 
 class Subject(Model):
-    """See https://www.fakturoid.cz/api/v3/subjects/ for complete field reference."""
+    """See http://docs.fakturoid.apiary.io/ for complete field reference."""
     name = None
 
     class Meta:
-        readonly = ['id', 'user_id', 'unreliable', 'unreliable_checked_at', 'html_url', 'url', 'created_at', 'updated_at']
+        readonly = ['id', 'avatar_url', 'html_url', 'url', 'updated_at']
         decimal = []
 
     def __unicode__(self):
@@ -100,12 +99,10 @@ class Subject(Model):
 
 
 class InvoiceLine(Model):
-    """See https://www.fakturoid.cz/api/v3/invoices#lines for complete field reference."""
     quantity = None
 
     class Meta:
-        readonly = [ 'id', 'unit_price_without_vat','unit_price_with_vat', 'total_price_without_vat',
-                     'total_vat', 'native_total_price_without_vat', 'native_total_vat', 'inventory']
+        readonly = []  # no id here, to correct update
         decimal = ['quantity', 'unit_price']
 
     def __init__(self, **kwargs):
@@ -155,19 +152,17 @@ class AbstractInvoice(Model):
 
 
 class Invoice(AbstractInvoice):
-    """See https://www.fakturoid.cz/api/v3/invoices/ for complete field reference."""
+    """See http://docs.fakturoid.apiary.io/ for complete field reference."""
     number = None
 
     class Meta:
         readonly = [
-            'id', 'your_name', 'your_street' , 'your_city', 'your_zip', 'your_country',
-            'your_registration_no', 'your_vat_no', 'your_local_vat_no', 'generator_id',
-            'token', 'status', 'due_on', 'sent_at', 'paid_at', 'reminder_sent_at',
-            'canceled_at', 'uncollectible_at', 'locked_at', 'webinvoice_seen_on',
-            'subtotal', 'total', 'native_subtotal',  'native_total',
-            'remaining_amount', 'remaining_native_amount', 'eet_records', 'vat_rates_summary',
-            'paid_advances', 'payments', 'html_url', 'public_html_url', 'url', 'pdf_url',
-            'updated_at', 'subject_url', 'created_at', 'updated_at'
+            'id', 'token', 'status', 'due_on',
+            'sent_at', 'paid_at', 'reminder_sent_at', 'accepted_at', 'canceled_at',
+            'subtotal', 'native_subtotal', 'total', 'native_total',
+            'remaining_amount', 'remaining_native_amount',
+            'html_url', 'public_html_url', 'url', 'updated_at',
+            'subject_url'
         ]
         decimal = [
             'exchange_rate', 'subtotal', 'total',
@@ -179,35 +174,14 @@ class Invoice(AbstractInvoice):
         return self.number
 
 
-class Expense(AbstractInvoice):
-    """See https://www.fakturoid.cz/api/v3/expenses for complete field reference."""
-    number = None
-
-    class Meta:
-        readonly = [
-            'id', 'supplier_name', 'supplier_street', 'supplier_city',
-            'supplier_zip', 'supplier_country', 'supplier_registration_no',
-            'supplier_vat_no', 'supplier_local_vat_no', 'status', 'paid_on', 'locked_at',
-            'subtotal', 'total', 'native_subtotal', 'native_total', 'vat_rates_summary', 'payments',
-            'html_url', 'url', 'subject_url', 'created_at', 'updated_at'
-        ]
-        decimal = [
-            'exchange_rate', 'subtotal', 'total',
-            'native_subtotal', 'native_total'
-        ]
-
-    def __unicode__(self):
-        return self.number
-
-
 class Generator(AbstractInvoice):
-    """See https://www.fakturoid.cz/api/v3/generators for complete field reference."""
+    """See http://docs.fakturoid.apiary.io/ for complete field reference."""
     name = None
 
     class Meta:
         readonly = [
-            'id', 'legacy_bank_details', 'subtotal', 'total', 'native_subtotal', 'native_total',
-            'html_url', 'url', 'subject_url', 'created_at', 'updated_at'
+            'id', 'subtotal', 'native_subtotal', 'total', 'native_total',
+            'html_url', 'url', 'subject_url', 'updated_at'
         ]
         decimal = ['exchange_rate', 'subtotal', 'total', 'native_subtotal', 'native_total']
 
@@ -215,8 +189,8 @@ class Generator(AbstractInvoice):
         return self.name
 
 
-class InvoiceMessage(Model):
-    """See https://www.fakturoid.cz/api/v3/invoice-messages for complete field reference."""
+class Message(Model):
+    """See http://docs.fakturoid.apiary.io/#reference/messages for complete field reference."""
     subject = None
 
     class Meta:
