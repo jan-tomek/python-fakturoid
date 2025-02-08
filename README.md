@@ -48,15 +48,15 @@ And finally create new invoice:
 from fakturoid import Invoice, InvoiceLine
 
 invoice = Invoice(
-    subject_id=28,
-    number='2013-0108',
+    subject_id=23205068,
+    #number='2025-0108',
     due=10,
-    issued_on=date(2012, 3, 30),
-    taxable_fulfillment_due=date(2012, 3, 30),
+    issued_on=date(2025, 1, 31),
+    taxable_fulfillment_due=date(2025, 1, 31),
     lines=[
         # use Decimal or string for floating values
-        InvoiceLine(name='Hard work', unit_name='h', unit_price=40000, vat_rate=20),
-        InvoiceLine(name='Soft material', quantity=12, unit_name='ks', unit_price="4.60", vat_rate=20),
+        InvoiceLine(name='Hard work', unit_name='h', unit_price=40000, vat_rate=21),
+        InvoiceLine(name='Soft material', quantity=12, unit_name='ks', unit_price="4.60", vat_rate=21),
     ]
 )
 fa.save(invoice)
