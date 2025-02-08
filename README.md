@@ -8,7 +8,7 @@ It is unoficial and no support from Fakturoid team can be claimed.
 
 ## Installation
 
-Install from PyPI
+Install from PyPI (not currently available)
 
 ~~pip install fakturoid~~
 
