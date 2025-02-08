@@ -1,7 +1,9 @@
+import base64
 import re
 import json
 from datetime import date, datetime
 from functools import wraps
+from base64 import b64encode
 
 import requests
 
@@ -17,15 +19,27 @@ class Fakturoid(object):
     """Fakturoid API v2 - http://docs.fakturoid.apiary.io/"""
     slug = None
     api_key = None
-    user_agent = 'python-fakturoid (https://github.com/farin/python-fakturoid)'
+    user_agent = 'python-fakturoid (https://github.com/jan-tomek/python-fakturoid)'
 
     _models_api = None
 
-    def __init__(self, slug, email, api_key, user_agent=None):
+    def __init__(self, slug, email, client_id, client_secret, user_agent=None):
         self.slug = slug
-        self.api_key = api_key
+        self.client_id_secret = client_id + ':' + client_secret
         self.email = email
         self.user_agent = user_agent or self.user_agent
+
+        resp = requests.request(method='POST',
+                             url='https://app.fakturoid.cz/api/v3/oauth/token',
+                             headers={'User-Agent': self.user_agent,
+                                      'Accept': 'application/json',
+                                      'Authorization': 'Basic ' + b64encode(self.client_id_secret.encode()).decode()},
+                             data ={'grant_type': 'client_credentials'},
+                             )
+        try:
+            self.token = json.loads(resp.text)['access_token']
+        except Exception:
+            resp.raise_for_status()
 
         self._models_api = {
             Account: AccountApi(self),
@@ -131,10 +145,11 @@ class Fakturoid(object):
         return None
 
     def _make_request(self, method, success_status, endpoint, **kwargs):
-        url = "https://app.fakturoid.cz/api/v2/accounts/{0}/{1}.json".format(self.slug, endpoint)
-        headers = {'User-Agent': self.user_agent}
+        url = "https://app.fakturoid.cz/api/v3/accounts/{0}/{1}.json".format(self.slug, endpoint)
+        headers = {'User-Agent': self.user_agent,
+                   'Authorization': 'Bearer ' + self.token,}
         headers.update(kwargs.pop('headers', {}))
-        r = getattr(requests, method)(url, auth=(self.email, self.api_key), headers=headers, **kwargs)
+        r = getattr(requests, method)(url, headers=headers, **kwargs)
         try:
             json_result = r.json()
         except Exception:
@@ -313,10 +328,10 @@ class InvoicesApi(CrudModelApi):
 
         if proforma is None:
             endpoint = self.endpoint
-        elif proforma:
-            endpoint = '{0}/proforma'.format(self.endpoint)
+        elif proforma:               # TODO JTO proforma/regular
+            endpoint = '{0}'.format(self.endpoint)
         else:
-            endpoint = '{0}/regular'.format(self.endpoint)
+            endpoint = '{0}'.format(self.endpoint)
 
         return ModelList(self, endpoint, params)
 

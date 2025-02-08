@@ -40,3 +40,4 @@ nosetests.xml
 /.idea/modules.xml
 /.idea/inspectionProfiles/profiles_settings.xml
 /.idea/vcs.xml
+/test_jto.py
