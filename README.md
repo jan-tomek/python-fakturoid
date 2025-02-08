@@ -29,11 +29,11 @@ from fakturoid import Fakturoid
 fa = Fakturoid('yourslug', 'your@email.com', 'apikey038dc73...', 'YourApp (yourname@example.com)')
 ```
 
-Print 25 regular invoices in year 2013:
+Print all regular invoices from year 2024:
 ```python
 from datetime import date
 
-for invoice in fa.invoices(proforma=False, since=date(2013,1,1))[:25]:
+for invoice in fa.invoices(proforma=False, since=date(2024,1,1)):
     print(invoice.number, invoice.total)
 ```
 

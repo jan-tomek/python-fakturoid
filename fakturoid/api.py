@@ -276,6 +276,7 @@ class InvoicesApi(CrudModelApi):
     model_type = Invoice
     endpoint = 'invoices'
 
+    TYPES = ['regular', 'proforma', 'correction', 'tax_document']
     STATUSES = ['open', 'sent', 'overdue', 'paid', 'cancelled']
     EVENTS = ['mark_as_sent', 'deliver', 'pay', 'pay_proforma', 'pay_partial_proforma', 'remove_payment', 'deliver_reminder', 'cancel', 'undo_cancel']
     EVENT_ARGS = {
@@ -326,14 +327,13 @@ class InvoicesApi(CrudModelApi):
                 raise ValueError('invalid invoice status, expected one of {0}'.format(', '.join(self.STATUSES)))
             params['status'] = status
 
-        if proforma is None:
-            endpoint = self.endpoint
-        elif proforma:               # TODO JTO proforma/regular
-            endpoint = '{0}'.format(self.endpoint)
-        else:
-            endpoint = '{0}'.format(self.endpoint)
+        if proforma is not None:
+            if proforma:
+                params['document_type'] = 'proforma'
+            else:
+                params['document_type'] = 'regular'
 
-        return ModelList(self, endpoint, params)
+        return ModelList(self, self.endpoint, params)
 
 
 class ExpensesApi(CrudModelApi):
