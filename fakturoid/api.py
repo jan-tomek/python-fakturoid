@@ -7,7 +7,7 @@ from base64 import b64encode
 
 import requests
 
-from fakturoid.models import Account, Subject, Invoice, Generator, Message, Expense
+from fakturoid.models import Account, Subject, Invoice, Generator, InvoiceMessage, Expense
 from fakturoid.paging import ModelList
 
 __all__ = ['Fakturoid']
@@ -47,7 +47,7 @@ class Fakturoid(object):
             Invoice: InvoicesApi(self),
             Expense: ExpensesApi(self),
             Generator: GeneratorsApi(self),
-            Message: MessagesApi(self),
+            InvoiceMessage: MessagesApi(self),
         }
 
         # Hack to expose full seach on subjects as
@@ -424,7 +424,7 @@ class GeneratorsApi(CrudModelApi):
 
 
 class MessagesApi(ModelApi):
-    model_type = Message
+    model_type = InvoiceMessage
     endpoint = 'message'
 
     def save(self, model, **kwargs):
