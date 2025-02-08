@@ -26,7 +26,7 @@ Create context:
 ```python
 from fakturoid import Fakturoid
 
-fa = Fakturoid('yourslug', 'your@email.com', 'apikey038dc73...', 'YourApp (yourname@example.com)')
+fa = Fakturoid('yourslug', 'your@email.com', 'clientid038dc73...', 'clientsecret7452f8..,','YourApp (yourname@example.com)')
 ```
 
 Print all regular invoices from year 2024:
