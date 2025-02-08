@@ -6,9 +6,9 @@ from fakturoid import six
 class PagedResource(object):
     """List adapter for paged resources. Returns sliceable lazy loaded object."""
 
-    def __init__(self, page_size=20):
+    def __init__(self, page_size=40):
         self.pages = {}
-        self.page_size = page_size or 20
+        self.page_size = page_size or 40
         self.page_count = None
 
     def load_page(self, n):
