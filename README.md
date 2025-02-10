@@ -70,6 +70,10 @@ print(invoice.due_on)
 
 Returns `Account` instance. Account is readonly and can't be updated by API.
 
+<code>Fakturoid.<b>bank_accounts()</b></code>
+
+Returns list of `BankAccount` instances. Bank accounts are readonly and can't be updated by API.
+
 <code>Fakturoid.<b>subject(id)</b></code>
 
 Returns `Subject` instance.
@@ -148,7 +152,11 @@ Values are mapped to corresponding `int`, `decimal.Decimal`, `datetime.date` and
 
 [https://www.fakturoid.cz/api/v3/account](https://www.fakturoid.cz/api/v3/account)
 
-<code>Fakturoid.<b>Subjects</b></code>
+<code>Fakturoid.<b>BankAccount</b></code>
+
+[http://docs.fakturoid.apiary.io/#reference/bank-accounts](http://docs.fakturoid.apiary.io/#reference/bank-accounts)
+
+<code>Fakturoid.<b>Subject</b></code>
 
 [https://www.fakturoid.cz/api/v3/subjects](https://www.fakturoid.cz/api/v3/subjects)
 

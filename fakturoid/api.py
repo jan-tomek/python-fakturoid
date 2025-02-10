@@ -1,3 +1,4 @@
+import base64
 import re
 import json
 from datetime import date, datetime
@@ -6,7 +7,7 @@ from base64 import b64encode
 
 import requests
 
-from fakturoid.models import Account, Subject, Invoice, Generator, InvoiceMessage, Expense, BankAccount
+from fakturoid.models import Account, BankAccount, Subject, Invoice, Generator, InvoiceMessage, Expense
 from fakturoid.paging import ModelList
 
 __all__ = ['Fakturoid']
