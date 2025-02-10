@@ -8,7 +8,7 @@ It is unoficial and no support from Fakturoid team can be claimed.
 
 ## Installation
 
-Install from PyPI uses v2 - for v3 use pip and overwrite files in site-packages/fakturoid with v3 files from github 
+Install from PyPI uses v2 - for v3 use pip and <b>overwrite files in site-packages/fakturoid with v3 files from github</b> 
 
     pip install fakturoid 
 
