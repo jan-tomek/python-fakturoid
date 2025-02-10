@@ -304,7 +304,7 @@ class InvoicesApi(CrudModelApi):
 
         self.session._post('invoices/{0}/fire'.format(invoice_id), {}, params=params)
 
-    def find(self, proforma=None, subject_id=None, since=None, updated_since=None, number=None, status=None, custom_id=None):
+    def find(self, proforma=None, subject_id=None, since=None, until=None, updated_since=None, updated_until=None, number=None, status=None, custom_id=None):
         params = {}
         if subject_id:
             if not isinstance(subject_id, int):
@@ -314,10 +314,18 @@ class InvoicesApi(CrudModelApi):
             if not isinstance(since, (datetime, date)):
                 raise TypeError("'since' parameter must be date or datetime")
             params['since'] = since.isoformat()
+        if until:
+            if not isinstance(until, (datetime, date)):
+                raise TypeError("'until' parameter must be date or datetime")
+            params['until'] = until.isoformat()
         if updated_since:
             if not isinstance(updated_since, (datetime, date)):
                 raise TypeError("'updated_since' parameter must be date or datetime")
             params['updated_since'] = updated_since.isoformat()
+        if updated_until:
+            if not isinstance(updated_until, (datetime, date)):
+                raise TypeError("'updated_until' parameter must be date or datetime")
+            params['updated_until'] = updated_until.isoformat()
         if number:
             params['number'] = number
         if custom_id:
