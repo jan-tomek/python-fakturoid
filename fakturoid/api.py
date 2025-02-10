@@ -16,7 +16,7 @@ link_header_pattern = re.compile(r'page=(\d+)[^>]*>; rel="last"')
 
 
 class Fakturoid(object):
-    """Fakturoid API v2 - http://docs.fakturoid.apiary.io/"""
+    """Fakturoid API v3 - https://www.fakturoid.cz/api/v3"""
     slug = None
     api_key = None
     user_agent = 'python-fakturoid (https://github.com/jan-tomek/python-fakturoid)'

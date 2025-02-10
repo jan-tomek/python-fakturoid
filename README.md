@@ -10,7 +10,7 @@ It is unoficial and no support from Fakturoid team can be claimed.
 
 Install from PyPI (not currently available)
 
-~~pip install fakturoid~~
+    <del>pip install fakturoid</del>
 
 or alternatively install development version directly from github
 
@@ -22,7 +22,7 @@ Supported Python versions are ~~2.6+~~ and 3.x. Dependencies are [requests](http
 
 ## Quickstart
 
-Create context:
+Create context - change to v3 uses client id and client secret:
 ```python
 from fakturoid import Fakturoid
 
@@ -103,7 +103,7 @@ Fires basic events on invoice. All events are described in [Fakturoid API docs](
 
 Pay event can accept optional arguments `paid_at` and `paid_amount`
 ```python
-fa.fire_invoice_event(11331402, 'pay', paid_at=date(2018, 11, 17), paid_amount=2000)
+fa.fire_invoice_event(11331402, 'pay', paid_at=date(2024, 11, 17), paid_amount=2000)
 ```
 
 <code>Fakturoid.<b>generator(id)</b></code>
@@ -121,7 +121,7 @@ Create or modify `Subject`, `Invoice` or `Generator`.
 To modify or delete inoive lines simply edit `lines`
 
 ```python
-invoice = fa.invoices(number='2014-0002')[0]
+invoice = fa.invoices(number='2024-0002')[0]
 invoice.lines[0].unit_price = 5000 # edit first item
 del invoice.lines[-1]  # delete last item
 fa.save(invoice)
@@ -140,29 +140,29 @@ fa.delete(Subject(id=1234))   # or alternativelly delete is possible without obj
 
 ### Models
 
-All models fields are named same as  [Fakturoid API](http://docs.fakturoid.apiary.io/).
+All models fields are named same as  [Fakturoid API](https://www.fakturoid.cz/api/v3).
 
 Values are mapped to corresponding `int`, `decimal.Decimal`, `datetime.date` and `datetime.datetime` types.
 
 <code>Fakturoid.<b>Account</b></code>
 
-[http://docs.fakturoid.apiary.io/#reference/account](http://docs.fakturoid.apiary.io/#reference/account)
+[https://www.fakturoid.cz/api/v3/account](https://www.fakturoid.cz/api/v3/account)
 
-<code>Fakturoid.<b>Subject</b></code>
+<code>Fakturoid.<b>Subjects</b></code>
 
-[http://docs.fakturoid.apiary.io/#reference/subjects](http://docs.fakturoid.apiary.io/#reference/subjects)
+[https://www.fakturoid.cz/api/v3/subjects](https://www.fakturoid.cz/api/v3/subjects)
 
-<code>Fakturoid.<b>Invoice</b></code><br>
+<code>Fakturoid.<b>Invoices</b></code><br>
 <code>Fakturoid.<b>InvoiceLine</b></code>
 
-[http://docs.fakturoid.apiary.io/#reference/invoices](http://docs.fakturoid.apiary.io/#reference/invoices)
+[https://www.fakturoid.cz/api/v3/invoices](https://www.fakturoid.cz/api/v3/invoices)
 
-<code>Fakturoid.<b>Generator</b></code>
+<code>Fakturoid.<b>Generators</b></code>
 
-[http://docs.fakturoid.apiary.io/#reference/generators](http://docs.fakturoid.apiary.io/#reference/generators)
+[https://www.fakturoid.cz/api/v3/generators](https://www.fakturoid.cz/api/v3/generators)
 
 Use `InvoiceLine` for generator lines
 
-<code>Fakturoid.<b>Message</b></code>
+<code>Fakturoid.<b>Invoice Messages</b></code>
 
-[http://docs.fakturoid.apiary.io/#reference/messages](http://docs.fakturoid.apiary.io/#reference/messages)
+[https://www.fakturoid.cz/api/v3/invoice-messages](https://www.fakturoid.cz/api/v3/invoice-messages)
