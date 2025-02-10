@@ -1,13 +1,11 @@
-import base64
 import re
 import json
 from datetime import date, datetime
 from functools import wraps
-from base64 import b64encode
 
 import requests
 
-from fakturoid.models import Account, Subject, Invoice, Generator, InvoiceMessage, Expense
+from fakturoid.models import Account, Subject, Invoice, Generator, Message
 from fakturoid.paging import ModelList
 
 __all__ = ['Fakturoid']
@@ -252,7 +250,6 @@ class BankAccountsApi(ModelApi):
     def find(self, params={}, endpoint=None):
         response = self.session._get(endpoint or self.endpoint, params=params)
         return self.unpack(response)
-
 
 class SubjectsApi(CrudModelApi):
     model_type = Subject

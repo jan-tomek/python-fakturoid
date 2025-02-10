@@ -156,7 +156,7 @@ Values are mapped to corresponding `int`, `decimal.Decimal`, `datetime.date` and
 
 [http://docs.fakturoid.apiary.io/#reference/bank-accounts](http://docs.fakturoid.apiary.io/#reference/bank-accounts)
 
-<code>Fakturoid.<b>Subjects</b></code>
+<code>Fakturoid.<b>Subject</b></code>
 
 [https://www.fakturoid.cz/api/v3/subjects](https://www.fakturoid.cz/api/v3/subjects)
 
