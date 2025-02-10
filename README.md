@@ -1,4 +1,4 @@
-# fakturoid.cz Python API
+# fakturoid.cz Python API v3
 
 The Python interface to online accounting service [Fakturoid](http://fakturoid.cz/).
 
