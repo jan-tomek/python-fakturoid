@@ -10,7 +10,7 @@ It is unoficial and no support from Fakturoid team can be claimed.
 
 Install from PyPI (not currently available)
 
-    <del>pip install fakturoid</del>
+<del>pip install fakturoid</del>
 
 or alternatively install development version directly from github
 
