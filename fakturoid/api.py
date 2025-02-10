@@ -1,4 +1,3 @@
-import base64
 import re
 import json
 from datetime import date, datetime
