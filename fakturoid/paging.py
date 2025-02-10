@@ -6,17 +6,17 @@ from fakturoid import six
 class PagedResource(object):
     """List adapter for paged resources. Returns sliceable lazy loaded object."""
 
-    def __init__(self, page_size=40):
+    def __init__(self):
         self.pages = {}
-        self.page_size = page_size or 40
+        self.page_size = None
         self.page_count = None
 
     def load_page(self, n):
         raise NotImplementedError("You must implement load_page method.")
 
-    def ensure_page_count(self):
-        if self.page_count is None:
-            # load any page to get page count from headers
+    def ensure_paging_info(self):
+        if self.page_count is None or self.page_size is None:
+            # load any page to get page count and page size
             self.get_page(0)
 
     def get_page(self, n):
@@ -31,11 +31,12 @@ class PagedResource(object):
         raise IndexError('index out of range')
 
     def __len__(self):
-        self.ensure_page_count()
+        self.ensure_paging_info()
         return (self.page_size * (self.page_count - 1) +
                 len(self.get_page(self.page_count - 1)))
 
     def __getitem__(self, key):
+        self.ensure_paging_info()
         if isinstance(key, int):
             if key < 0:
                 key = len(self) + key
@@ -64,7 +65,10 @@ class ModelList(PagedResource, six.UnicodeMixin):
         response = self.model_api.session._get(self.endpoint, params=params)
         if self.page_count is None:
             self.page_count = response.get('page_count', n + 1)
-        return list(self.model_api.unpack(response))
+        objects = list(self.model_api.unpack(response))
+        if self.page_size is None:
+            self.page_size = len(objects)
+        return objects
 
     def __unicode__(self):
         # TODO print if loaded
