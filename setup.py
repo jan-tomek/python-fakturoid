@@ -11,19 +11,19 @@ except ImportError:
 #     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 long_description = """
-fakturoid.cz Python API
-=======================
+fakturoid.cz Python v3 API
+==========================
 
 The Python interface to online accounting service
 `Fakturoid <http://fakturoid.cz/>`_.
 
-See documentation on https://github.com/farin/python-fakturoid
+See documentation on https://github.com/jan-tomek/python-fakturoid
 """
 
 setup(
     name='fakturoid',
-    version='1.5.1',
-    url="https://github.com/farin/python-fakturoid",
+    version='2.9.1',
+    url="https://github.com/jan-tomek/python-fakturoid",
     description='Python API for fakturoid.cz',
     # long_description=read('README.md'),
     long_description=long_description,
@@ -41,8 +41,6 @@ setup(
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
-        "Programming Language :: Python :: 2.6",
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
         "Topic :: Office/Business :: Financial :: Accounting",
     ],
