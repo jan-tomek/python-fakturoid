@@ -9,8 +9,8 @@ It is unoficial and no support from Fakturoid team can be claimed.
 ## Short Changelog v3
 
 - Merge of [martn](https://github.com/martn)'s "**Bank accounts**" from open pull request [#11](https://github.com/farin/python-fakturoid/pull/11)
-- Merge of [piit79](https://github.com/piit79)'s "**Add support for InvoicesApi.find parameters until and updated_until**" from pull open request [#18](https://github.com/farin/python-fakturoid/pull/18)
-- Merge of [piit79](https://github.com/piit79)'s "**Fix paging by auto-detecting the page size**" from pull open request [#17](https://github.com/farin/python-fakturoid/pull/17) 
+- Merge of [piit79](https://github.com/piit79)'s "**Add support for InvoicesApi.find parameters until and updated_until**" from open pull request [#18](https://github.com/farin/python-fakturoid/pull/18)
+- Merge of [piit79](https://github.com/piit79)'s "**Fix paging by auto-detecting the page size**" from open pull request [#17](https://github.com/farin/python-fakturoid/pull/17) and open issue [#14](https://github.com/farin/python-fakturoid/issues/14) 
 - Update to v3 API, mostly update of authorization and small changes including metadata update 
 - Fork of python-fakturoid. Written by [farin](https://github.com/farin). Thank you for great work.  
 
