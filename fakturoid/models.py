@@ -77,8 +77,8 @@ class BankAccount(Model):
     name = None
 
     class Meta:
-        #readonly = ['id', 'name', 'currency', 'number', 'iban', 'swift_bic', 'pairing', 'expense_pairing',
-        #            'payment_adjustment', 'default', 'created_at', 'updated_at']
+        readonly = ['id', 'name', 'currency', 'number', 'iban', 'swift_bic', 'pairing', 'expense_pairing',
+                    'payment_adjustment', 'default', 'created_at', 'updated_at']
         decimal = []
 
     def __unicode__(self):
