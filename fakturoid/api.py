@@ -268,7 +268,7 @@ class SubjectsApi(CrudModelApi):
             params['updated_since'] = updated_since.isoformat()
         if custom_id:
             params['custom_id'] = custom_id
-        return super(SubjectsApi, self).find(params)
+        return ModelList(self, self.endpoint, params)
 
     def search(self, query):
         """Full text search as described in
