@@ -8,6 +8,7 @@ It is unoficial and no support from Fakturoid team can be claimed.
 
 ## Short Changelog v3
 
+- Merge of [nextsux](https://github.com/nextsux)'s "**fix: paginate subjects**" from open pull request [#16](https://github.com/farin/python-fakturoid/pull/16)
 - Merge of [martn](https://github.com/martn)'s "**Bank accounts**" from open pull request [#11](https://github.com/farin/python-fakturoid/pull/11)
 - Merge of [piit79](https://github.com/piit79)'s "**Add support for InvoicesApi.find parameters until and updated_until**" from open pull request [#18](https://github.com/farin/python-fakturoid/pull/18)
 - Merge of [piit79](https://github.com/piit79)'s "**Fix paging by auto-detecting the page size**" from open pull request [#17](https://github.com/farin/python-fakturoid/pull/17) and open issue [#14](https://github.com/farin/python-fakturoid/issues/14) 
