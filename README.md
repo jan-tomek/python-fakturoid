@@ -6,7 +6,7 @@ Update to [API v3](https://www.fakturoid.cz/api/v3) by Jan Tomek ([jan.tomek@out
 This library was created and developed by Roman Krejcik ([farin@farin.cz](mailto:farin@farin.cz)).
 It is unoficial and no support from Fakturoid team can be claimed.
 
-# Short Changelog v3
+## Short Changelog v3
 
 - Merge of [martn](https://github.com/martn)'s "**Bank accounts**" from open pull request [#11](https://github.com/farin/python-fakturoid/pull/11)
 - Merge of [piit79](https://github.com/piit79)'s "**Add support for InvoicesApi.find parameters until and updated_until**" from pull open request [#18](https://github.com/farin/python-fakturoid/pull/18)
