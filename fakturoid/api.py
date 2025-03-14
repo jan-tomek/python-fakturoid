@@ -450,5 +450,4 @@ class MessagesApi(ModelApi):
         invoice_id = kwargs.get('invoice_id')
         if not isinstance(invoice_id, int):
             raise TypeError("invoice_id must be int")
-        result = self.session._post('invoices/{0}/{1}'.format(invoice_id, self.endpoint), model.get_fields())
-        model.update(result['json'])
+        self.session._post('invoices/{0}/{1}'.format(invoice_id, self.endpoint), model.get_fields())
