@@ -4,10 +4,11 @@ The Python interface to online accounting service [Fakturoid](http://fakturoid.c
 
 Update to [API v3](https://www.fakturoid.cz/api/v3) by Jan Tomek ([jan.tomek@outlook.com](mailto:jan.tomek@outlook.com)).
 This library was created and developed by Roman Krejcik ([farin@farin.cz](mailto:farin@farin.cz)).
-It is unoficial and no support from Fakturoid team can be claimed.
+It is unofficial and no support from Fakturoid team can be claimed.
 
 ## Short Changelog v3
 
+- Merge of [rambousek](https://github.com/rambousek)'s "**InvoicePayments API**" from pull requests [#2](https://github.com/jan-tomek/python-fakturoid/pull/2) and [#3](https://github.com/jan-tomek/python-fakturoid/pull/3) 
 - Merge of [nextsux](https://github.com/nextsux)'s "**fix: paginate subjects**" from open pull request [#16](https://github.com/farin/python-fakturoid/pull/16)
 - Merge of [martn](https://github.com/martn)'s "**Bank accounts**" from open pull request [#11](https://github.com/farin/python-fakturoid/pull/11)
 - Merge of [piit79](https://github.com/piit79)'s "**Add support for InvoicesApi.find parameters until and updated_until**" from open pull request [#18](https://github.com/farin/python-fakturoid/pull/18)
@@ -172,6 +173,10 @@ Values are mapped to corresponding `int`, `decimal.Decimal`, `datetime.date` and
 <code>Fakturoid.<b>InvoiceLine</b></code>
 
 [https://www.fakturoid.cz/api/v3/invoices](https://www.fakturoid.cz/api/v3/invoices)
+
+<code>Fakturoid.<b>Invoice Payments</b></code>
+
+[https://www.fakturoid.cz/api/v3/invoice-payments](https://www.fakturoid.cz/api/v3/invoice-payments)
 
 <code>Fakturoid.<b>Generators</b></code>
 
