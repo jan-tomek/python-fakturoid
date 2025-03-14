@@ -6,7 +6,7 @@ from base64 import b64encode
 
 import requests
 
-from fakturoid.models import Account, BankAccount, Subject, Invoice, Generator, InvoiceMessage, Expense
+from fakturoid.models import Account, BankAccount, Expense, Generator, Invoice, InvoiceMessage, InvoicePayment, Subject
 from fakturoid.paging import ModelList
 
 __all__ = ['Fakturoid']
@@ -48,6 +48,7 @@ class Fakturoid(object):
             Expense: ExpensesApi(self),
             Generator: GeneratorsApi(self),
             InvoiceMessage: MessagesApi(self),
+            InvoicePayment: PaymentsApi(self),
         }
 
         # Hack to expose full seach on subjects as
@@ -127,19 +128,23 @@ class Fakturoid(object):
     def generators(self, mapi, *args, **kwargs):
         return mapi.find(*args, **kwargs)
 
+    @model_api(InvoicePayment)
+    def create_tax_document(self, mapi, invoice_id, payment_id, **kwargs):
+        return mapi.create_tax_document(invoice_id, payment_id, **kwargs)
+
     @model_api()
     def save(self, mapi, obj, **kwargs):
         mapi.save(obj, **kwargs)
 
     @model_api()
-    def delete(self, mapi, obj):
+    def delete(self, mapi, obj, **kwargs):
         """Call with loaded model or use new instance directly.
         s = fa.subject(1234)
         a.delete(s)
 
         fa.delete(Subject(id=1234))
         """
-        mapi.delete(obj)
+        mapi.delete(obj, **kwargs)
 
     def _extract_page_link(self, header):
         m = link_header_pattern.search(header)
@@ -230,7 +235,7 @@ class CrudModelApi(ModelApi):
             result = self.session._post(self.endpoint, model.get_fields())
         model.update(result['json'])
 
-    def delete(self, model):
+    def delete(self, model, **kwargs):
         id = self.extract_id(model)
         self.session._delete('{0}/{1}'.format(self.endpoint, id))
 
@@ -451,3 +456,33 @@ class MessagesApi(ModelApi):
         if not isinstance(invoice_id, int):
             raise TypeError("invoice_id must be int")
         self.session._post('invoices/{0}/{1}'.format(invoice_id, self.endpoint), model.get_fields())
+
+
+class PaymentsApi(ModelApi):
+    model_type = InvoicePayment
+    endpoint = 'payments'
+
+    def save(self, model, **kwargs):
+        invoice_id = kwargs.get('invoice_id')
+        if not isinstance(invoice_id, int):
+            raise TypeError("invoice_id must be int")
+        result = self.session._post('invoices/{0}/{1}'.format(invoice_id, self.endpoint), model.get_fields())
+        model.update(result['json'])
+
+    def delete(self, model,  **kwargs):
+        invoice_id = kwargs.get('invoice_id')
+        if not isinstance(invoice_id, int):
+            raise TypeError("invoice_id must be int")
+        model_id = self.extract_id(model)
+        self.session._delete('invoices/{0}/{1}/{2}'.format(invoice_id, self.endpoint, model_id))
+
+    def create_tax_document(self, model, **kwargs):
+        invoice_id = kwargs.get('invoice_id')
+        if not isinstance(invoice_id, int):
+            raise TypeError("invoice_id must be int")
+        model_id = self.extract_id(model)
+        result = self.session._post(
+            'invoices/{0}/{1}/{2}/create_tax_document'.format(invoice_id, self.endpoint, model_id),
+            model.get_fields()
+        )
+        model.update(result['json'])
