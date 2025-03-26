@@ -6,7 +6,7 @@ from dateutil.parser import parse
 from fakturoid import six
 
 __all__ = ['Account', 'BankAccount', 'Subject', 'InvoiceLine', 'Invoice', 'Generator', 'InvoiceMessage',
-           'InvoicePayment', 'Expense']
+           'InvoicePayment', 'Expense', 'ExpensePayment']
 
 
 class Model(six.UnicodeMixin):
@@ -200,6 +200,14 @@ class Expense(AbstractInvoice):
 
     def __unicode__(self):
         return self.number
+
+
+class ExpensePayment(Model):
+    """See https://www.fakturoid.cz/api/v3/expense-payments for complete field reference."""
+
+    class Meta:
+        readonly = ['id', 'currency']
+        decimal = ['amount', 'native_amount']
 
 
 class Generator(AbstractInvoice):

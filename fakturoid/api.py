@@ -6,7 +6,7 @@ from base64 import b64encode
 
 import requests
 
-from fakturoid.models import Account, BankAccount, Expense, Generator, Invoice, InvoiceMessage, InvoicePayment, Subject
+from fakturoid.models import Account, BankAccount, Expense, ExpensePayment, Generator, Invoice, InvoiceMessage, InvoicePayment, Subject
 from fakturoid.paging import ModelList
 
 __all__ = ['Fakturoid']
@@ -46,6 +46,7 @@ class Fakturoid(object):
             Subject: SubjectsApi(self),
             Invoice: InvoicesApi(self),
             Expense: ExpensesApi(self),
+            ExpensePayment: ExpensePaymentsApi(self),
             Generator: GeneratorsApi(self),
             InvoiceMessage: MessagesApi(self),
             InvoicePayment: PaymentsApi(self),
@@ -420,6 +421,25 @@ class ExpensesApi(CrudModelApi):
             params['variable_symbol'] = variable_symbol
 
         return ModelList(self, self.endpoint, params)
+
+
+class ExpensePaymentsApi(ModelApi):
+    model_type = ExpensePayment
+    endpoint = 'payments'
+
+    def save(self, model, **kwargs):
+        expense_id = kwargs.get('expense_id')
+        if not isinstance(expense_id, int):
+            raise TypeError("expense_id must be int")
+        result = self.session._post('expenses/{0}/{1}'.format(expense_id, self.endpoint), model.get_fields())
+        model.update(result['json'])
+
+    def delete(self, model,  **kwargs):
+        expense_id = kwargs.get('expense_id')
+        if not isinstance(expense_id, int):
+            raise TypeError("expense_id must be int")
+        model_id = self.extract_id(model)
+        self.session._delete('expenses/{0}/{1}/{2}'.format(expense_id, self.endpoint, model_id))
 
 
 class GeneratorsApi(CrudModelApi):
