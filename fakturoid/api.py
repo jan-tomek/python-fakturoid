@@ -1,6 +1,6 @@
 import re
 import json
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from functools import wraps
 from base64 import b64encode
 
@@ -28,17 +28,8 @@ class Fakturoid(object):
         self.email = email
         self.user_agent = user_agent or self.user_agent
 
-        resp = requests.request(method='POST',
-                             url='https://app.fakturoid.cz/api/v3/oauth/token',
-                             headers={'User-Agent': self.user_agent,
-                                      'Accept': 'application/json',
-                                      'Authorization': 'Basic ' + b64encode(self.client_id_secret.encode()).decode()},
-                             data ={'grant_type': 'client_credentials'},
-                             )
-        try:
-            self.token = json.loads(resp.text)['access_token']
-        except Exception:
-            resp.raise_for_status()
+        # ensure new token to validate credentials
+        self.refresh_access_token()
 
         self._models_api = {
             Account: AccountApi(self),
@@ -63,6 +54,35 @@ class Fakturoid(object):
             return self._subjects_search(*args, **kwargs)
         self.subjects = subjects_find
         self.subjects.search = subjects_search
+
+    @property
+    def access_token(self):
+        if self._access_token is None:
+            self.refresh_access_token()
+        elif datetime.now() > self._access_token_expiration:
+            self.refresh_access_token()
+        return self._access_token
+
+    def refresh_access_token(self):
+        resp = requests.request(
+            method='POST',
+            url='https://app.fakturoid.cz/api/v3/oauth/token',
+            headers={'User-Agent': self.user_agent,
+                     'Accept': 'application/json',
+                     'Authorization': 'Basic ' + b64encode(
+                         self.client_id_secret.encode()).decode()},
+            data={'grant_type': 'client_credentials'},
+            )
+        try:
+            response = resp.json()
+            the_token = response['access_token']
+            token_expiration = int(response['expires_in'])
+        except Exception:
+            resp.raise_for_status()
+            raise
+        self._access_token_expiration = datetime.now() + timedelta(seconds=token_expiration-900)
+        self._access_token = the_token
+        return self._access_token
 
     def model_api(model_type=None):
         def wrap(fn):
@@ -155,7 +175,7 @@ class Fakturoid(object):
     def _make_request(self, method, success_status, endpoint, **kwargs):
         url = "https://app.fakturoid.cz/api/v3/accounts/{0}/{1}.json".format(self.slug, endpoint)
         headers = {'User-Agent': self.user_agent,
-                   'Authorization': 'Bearer ' + self.token,}
+                   'Authorization': 'Bearer ' + self.access_token,}
         headers.update(kwargs.pop('headers', {}))
         r = getattr(requests, method)(url, headers=headers, **kwargs)
         try:
